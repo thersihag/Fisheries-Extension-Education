@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fisheries Extension Education</title>
+  <meta name="description" content="Clean, mobile-first single-file page on Fisheries Extension Education with cards, table, FAQ, and an adoption curve visual." />
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sea: {
+              light: '#dcfce7',
+              DEFAULT: '#14b8a6',
+              dark: '#0f766e'
+            },
+            ocean: {
+              light: '#e0f2fe',
+              DEFAULT: '#0ea5e9',
+              dark: '#075985'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --ocean: #0ea5e9;
+      --sea: #14b8a6;
+      --ink: #0b2534;
+      --paper: #f8fafc;
+    }
+    body { background: var(--paper); color: #0b2534; }
+    .glass { backdrop-filter: saturate(180%) blur(8px); background: rgba(255,255,255,0.75); }
+    .shadow-soft { box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12); }
+    .wave {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      overflow: hidden;
+    }
+    .wave svg { position: absolute; bottom: -1px; left: 0; }
+    .toc a { text-decoration: none; }
+    .badge-chip { border: 1px solid rgba(14,165,233,.3); }
+    .sticky-cta { position: fixed; right: 1rem; bottom: 1rem; z-index: 50; }
+    .print-hide { display: initial; }
+    @media print { .print-hide { display: none !important; } }
+
+    /* Sidebar Navbar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 300px;
+      height: 100%;
+      background: rgba(255,255,255,0.95);
+      transition: right 0.3s ease-in-out;
+      z-index: 1000;
+    }
+    .sidebar.active { right: 0; }
+    .sidebar .nav-link {
+      padding: 1rem;
+      color: var(--ink);
+      font-weight: 500;
+      border-bottom: 1px solid rgba(14,165,233,.1);
+    }
+    .sidebar .nav-link:hover { background: var(--ocean-light); }
+    .sidebar-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--ocean-dark);
+    }
+    @media (min-width: 992px) {
+      .sidebar { display: none; }
+      .desktop-nav { display: flex !important; }
+    }
+    @media (max-width: 991px) {
+      .desktop-nav { display: none !important; }
+    }
+
+    /* FAQ Card Toggle */
+    .faq-card .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+    .faq-card.active .faq-answer {
+      max-height: 200px; /* Adjust based on content */
+      padding: 1rem;
+    }
+    .faq-card .faq-header {
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .faq-card .faq-header:hover { background: var(--ocean-light); }
+    .faq-card .toggle-icon::before {
+      content: '+';
+      display: inline-block;
+      margin-right: 0.5rem;
+      transition: transform 0.3s;
+    }
+    .faq-card.active .toggle-icon::before {
+      content: '−';
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen font-sans text-slate-800">
+  <!-- Navbar -->
+  <nav class="navbar bg-white/80 glass sticky-top border-b py-3">
+    <div class="container">
+      <a class="navbar-brand fw-semibold text-ocean-dark" href="#">
+        <span class="inline-flex items-center gap-2">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 12c3-3 8-4 12-2 0 0 1-2 4-2-1 2-1 4 0 6-3 0-4-2-4-2-4 2-9 1-12-2Z" fill="var(--ocean)"/>
+            <circle cx="6" cy="12" r="1" fill="#0b2534"/>
+          </svg>
+          <span>Fisheries Extension Education</span>
+        </span>
+      </a>
+      <!-- Desktop Nav -->
+      <div class="desktop-nav navbar-nav d-flex flex-row gap-3">
+        <a class="nav-link" href="#definition">Definition</a>
+        <a class="nav-link" href="#history">History & Role</a>
+        <a class="nav-link" href="#methods">Methods</a>
+        <a class="nav-link" href="#themes">Key Themes</a>
+        <a class="nav-link" href="#programs">Programs</a>
+        <a class="nav-link" href="#planning">Planning</a>
+        <a class="nav-link" href="#socio">Socio & Psych</a>
+        <a class="nav-link" href="#institutions">Institutions</a>
+        <a class="nav-link" href="#curve">Adoption Curve</a>
+        <a class="nav-link" href="#faq">FAQ</a>
+      </div>
+      <!-- Mobile Toggler -->
+      <button class="navbar-toggler d-lg-none" type="button" id="sidebarToggle" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Sidebar for Mobile -->
+      <div class="sidebar" id="sidebarNav">
+        <button class="sidebar-close" id="sidebarClose">×</button>
+        <ul class="nav flex-column pt-5">
+          <li class="nav-item"><a class="nav-link" href="#definition">Definition</a></li>
+          <li class="nav-item"><a class="nav-link" href="#history">History & Role</a></li>
+          <li class="nav-item"><a class="nav-link" href="#methods">Methods</a></li>
+          <li class="nav-item"><a class="nav-link" href="#themes">Key Themes</a></li>
+          <li class="nav-item"><a class="nav-link" href="#programs">Programs</a></li>
+          <li class="nav-item"><a class="nav-link" href="#planning">Planning</a></li>
+          <li class="nav-item"><a class="nav-link" href="#socio">Socio & Psych</a></li>
+          <li class="nav-item"><a class="nav-link" href="#institutions">Institutions</a></li>
+          <li class="nav-item"><a class="nav-link" href="#curve">Adoption Curve</a></li>
+          <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="bg-gradient-to-b from-ocean-light to-white pt-12 pb-4">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-12 col-lg-7">
+          <h1 class="display-5 fw-semibold leading-tight text-slate-900">Simple & Clean Guide to <span class="text-ocean-dark">Fisheries Extension Education</span></h1>
+          <p class="mt-3 text-lg text-slate-700">A mobile-first, fast-loading page covering definitions, methods, programs, institutions, and a visual of Rogers’ Adoption Curve. Designed for readability and quick scanning.</p>
+          <div class="mt-4 d-flex flex-wrap gap-2">
+            <a href="#definition" class="btn btn-info text-white">Start Reading</a>
+            <button class="btn btn-outline-info" onclick="window.print()">Print / Save PDF</button>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5">
+          <div class="glass p-4 rounded-3 shadow-soft">
+            <h2 class="h5 mb-3">Quick Navigation</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 toc">
+              <a href="#definition" class="badge rounded-pill text-bg-light badge-chip">Definition</a>
+              <a href="#history" class="badge rounded-pill text-bg-light badge-chip">History</a>
+              <a href="#methods" class="badge rounded-pill text-bg-light badge-chip">Methods</a>
+              <a href="#themes" class="badge rounded-pill text-bg-light badge-chip">Themes</a>
+              <a href="#programs" class="badge rounded-pill text-bg-light badge-chip">Programs</a>
+              <a href="#planning" class="badge rounded-pill text-bg-light badge-chip">Planning</a>
+              <a href="#socio" class="badge rounded-pill text-bg-light badge-chip">Socio & Psych</a>
+              <a href="#institutions" class="badge rounded-pill text-bg-light badge-chip">Institutions</a>
+              <a href="#curve" class="badge rounded-pill text-bg-light badge-chip">Adoption Curve</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none" width="100%" height="120">
+        <path d="M0,96L60,85.3C120,75,240,53,360,58.7C480,64,600,96,720,101.3C840,107,960,85,1080,69.3C1200,53,1320,43,1380,37.3L1440,32L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z" fill="var(--ocean)" fill-opacity="0.15"></path>
+      </svg>
+    </div>
+  </header>
+
+  <!-- Definition & Concepts -->
+  <section id="definition" class="py-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-12 col-lg-7">
+          <div class="card border-0 shadow-soft">
+            <div class="card-body p-4">
+              <h2 class="h3 mb-3">1. Definition and Concepts</h2>
+              <p><strong>Extension Education</strong> is a structured process encompassing informal, non-formal, and formal methods of education. It is designed to transfer knowledge, practical skills, and appropriate technologies to rural and coastal communities, with the objective of enhancing their socio-economic status and livelihood sustainability.</p>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+                <div class="p-3 rounded-3 bg-white border">
+                  <h3 class="h6 mb-1">Informal Education</h3>
+                  <p class="mb-0 small">Learning through daily activities, experiences, peer interaction, and observation—unstructured and continuous.</p>
+                </div>
+                <div class="p-3 rounded-3 bg-white border">
+                  <h3 class="h6 mb-1">Non-formal Education</h3>
+                  <p class="mb-0 small">Organized learning outside formal schooling: trainings, workshops, demonstrations, fairs, exposure visits.</p>
+                </div>
+                <div class="p-3 rounded-3 bg-white border">
+                  <h3 class="h6 mb-1">Formal Education</h3>
+                  <p class="mb-0 small">Curriculum-based learning via universities, colleges, and institutes in fisheries and allied fields.</p>
+                </div>
+              </div>
+              <hr class="my-4"/>
+              <h3 class="h5">Fisheries Extension</h3>
+              <ul class="mt-2 small columns-1 md:columns-2">
+                <li>Dissemination of appropriate technologies</li>
+                <li>Capacity building and skill development</li>
+                <li>Enhancing production and productivity</li>
+                <li>Promoting sustainable practices</li>
+                <li>Empowering fishing and farming communities through inclusive development</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5">
+          <div class="p-4 rounded-3 bg-ocean-light/50 border shadow-soft h-100">
+            <h3 class="h6 text-ocean-dark">Why this page?</h3>
+            <p class="small mb-2">Designed for QR-based access: light, fast, and readable. Use the quick links or scroll section by section.</p>
+            <ul class="small mb-0">
+              <li>Mobile-first layout</li>
+              <li>Section-wise content flow</li>
+              <li>Light fisheries theme</li>
+              <li>One embedded visual</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- History & Role -->
+  <section id="history" class="py-5 bg-white">
+    <div class="container">
+      <h2 class="h3 mb-4">2. History and Role in Fisheries Development</h2>
+      <div class="row g-4">
+        <div class="col-12 col-lg-7">
+          <div class="card border-0 shadow-soft">
+            <div class="card-body p-4">
+              <p><strong>In India</strong>, fisheries extension gained momentum post-independence with the establishment of organizations like <abbr title="Indian Council of Agricultural Research">ICAR</abbr> and State Fisheries Departments.</p>
+              <h3 class="h6 mt-3">Key Developments</h3>
+              <ul class="small">
+                <li>Initiated through centrally sponsored schemes and institutional support</li>
+                <li>Facilitated transfer of scientific knowledge to traditional fishers</li>
+                <li>Created platforms for integrated fisheries development involving farmers, scientists, and administrators</li>
+              </ul>
+              <h3 class="h6 mt-3">Key Roles of Fisheries Extension</h3>
+              <ul class="small columns-1 md:columns-2">
+                <li>Facilitating technology adoption (capture & culture)</li>
+                <li>Organizing trainings, demonstrations, workshops</li>
+                <li>Participatory planning and need assessment</li>
+                <li>Bridging research institutions and fishers</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5">
+          <div class="p-4 rounded-3 bg-white border h-100">
+            <h3 class="h6">Major Programs & Tools</h3>
+            <div class="d-flex flex-wrap gap-2 mt-2">
+              <span class="badge text-bg-info">PMMSY</span>
+              <span class="badge text-bg-primary">Blue Revolution</span>
+              <span class="badge text-bg-success">Matsya Setu App</span>
+            </div>
+            <p class="small mt-3 mb-0">These initiatives support technology dissemination, training, and information access for stakeholders across the fisheries value chain.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Methods (Table) -->
+  <section id="methods" class="py-5">
+    <div class="container">
+      <h2 class="h3 mb-4">3. Extension Methods</h2>
+      <div class="table-responsive rounded-3 shadow-soft">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Method Type</th>
+              <th>Examples</th>
+              <th>Purpose & Effectiveness</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Individual</td>
+              <td>Farm/home visits, personal letters, phone calls</td>
+              <td>Personalized support; builds trust and rapport</td>
+            </tr>
+            <tr>
+              <td>Group</td>
+              <td>Field demonstrations, training programs, group meetings</td>
+              <td>Encourages peer learning and collective problem-solving</td>
+            </tr>
+            <tr>
+              <td>Mass Communication</td>
+              <td>Radio, TV, posters, mobile apps, exhibitions</td>
+              <td>Effective for awareness and large-scale reach</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row mt-3 small text-slate-600">
+        <div class="col">Choosing methods depends on audience, literacy, resources, urgency, and media access.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Themes -->
+  <section id="themes" class="py-5 bg-white">
+    <div class="container">
+      <h2 class="h3 mb-4">4. Key Themes & Concepts</h2>
+      <div class="row g-4">
+        <div class="col-12 col-lg-7">
+          <div class="card border-0 shadow-soft">
+            <div class="card-body p-4">
+              <h3 class="h6">Technology Transfer in Fisheries</h3>
+              <ol class="small mb-3">
+                <li>Research → Validation → Demonstration → Training → Adoption</li>
+              </ol>
+              <h3 class="h6">Transfer of Technology (ToT) Programs</h3>
+              <ul class="small">
+                <li><strong>On-Farm Trials (OFTs):</strong> Field trials under local conditions.</li>
+                <li><strong>Front Line Demonstrations (FLDs):</strong> Demonstrate proven tech in real conditions.</li>
+                <li><strong>Training Programs:</strong> Conducted by KVKs and NFDB.</li>
+                <li><strong>Matsya Setu App:</strong> Digital platform for fisheries education.</li>
+              </ul>
+              <h3 class="h6 mt-3">Role of Civil Society</h3>
+              <ul class="small columns-1 md:columns-2">
+                <li>Mobilizing communities</li>
+                <li>Microcredit & SHGs</li>
+                <li>Vocational & entrepreneurship training</li>
+                <li>Gender inclusion & empowerment</li>
+              </ul>
+              <h3 class="h6 mt-3">Fisheries Co-Management</h3>
+              <p class="small mb-0">A participatory approach where communities, government, and research institutions share responsibility for sustainable resource management and equitable benefits.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5">
+          <div class="p-4 rounded-3 bg-ocean-light/50 border h-100">
+            <h3 class="h6">At a glance</h3>
+            <ul class="small mb-0">
+              <li>Focus on adoption, not just awareness</li>
+              <li>Demonstrate under real conditions</li>
+              <li>Use blended channels (individual, group, mass)</li>
+              <li>Keep feedback loops active</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs (chips) -->
+  <section id="programs" class="py-5">
+    <div class="container">
+      <h2 class="h3 mb-4">Major Programs & Tools</h2>
+      <div class="d-flex flex-wrap gap-2">
+        <span class="badge rounded-pill text-bg-info">PMMSY (Pradhan Mantri Matsya Sampada Yojana)</span>
+        <span class="badge rounded-pill text-bg-primary">Blue Revolution</span>
+        <span class="badge rounded-pill text-bg-success">Matsya Setu App</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Adoption Barriers -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <h2 class="h3 mb-4">5. Diffusion & Adoption of Innovations</h2>
+      <div class="row g-4">
+        <div class="col-12 col-lg-7">
+          <div class="card border-0 shadow-soft">
+            <div class="card-body p-4">
+              <h3 class="h6">Common Barriers</h3>
+              <ul class="small">
+                <li>Lack of awareness and timely information</li>
+                <li>Limited financial/physical resources</li>
+                <li>High perceived risk of new technologies</li>
+                <li>Cultural beliefs and traditional practices</li>
+                <li>Inadequate follow-up and extension support</li>
+              </ul>
+              <p class="small mb-0">Extension agents address these through education, motivation, and continuous engagement.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5">
+          <div class="p-4 rounded-3 border h-100 bg-white">
+            <h3 class="h6">Tip</h3>
+            <p class="small mb-0">Pair demonstrations with microcredit/insurance and follow-up visits to lower risk perception and accelerate adoption.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Planning & Evaluation -->
+  <section id="planning" class="py-5">
+    <div class="container">
+      <h2 class="h3 mb-4">6. Extension Program Planning & Evaluation</h2>
+      <div class="row g-4">
+        <div class="col-12 col-lg-7">
+          <ol class="list-group list-group-numbered shadow-soft">
+            <li class="list-group-item">Collection of facts (baseline socio-economic data, resources, practices)</li>
+            <li class="list-group-item">Situation analysis (context, gaps, culture, stakeholders)</li>
+            <li class="list-group-item">Problem identification (prioritize constraints)</li>
+            <li class="list-group-item">Objective setting (<abbr title="Specific, Measurable, Achievable, Relevant, Time-bound">SMART</abbr>)</li>
+            <li class="list-group-item">Plan of work (calendar, methods, resources, timelines)</li>
+            <li class="list-group-item">Implementation (trainings, demonstrations, campaigns, exposure visits)</li>
+            <li class="list-group-item">Monitoring & evaluation (track progress, outcomes, impact)</li>
+            <li class="list-group-item">Review & revision (feedback-led adaptation)</li>
+          </ol>
+        </div>
+        <div class="col-12 col-lg-5">
+          <div class="accordion shadow-soft" id="participatoryTools">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Participatory Planning Tools
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#participatoryTools">
+                <div class="accordion-body small">
+                  <p class="mb-2"><strong>PRA:</strong> Resource/social mapping, seasonal calendars, transect walks.</p>
+                  <p class="mb-2"><strong>Farmer-Led Extension:</strong> Farmers lead problem ID and solutions.</p>
+                  <p class="mb-2"><strong>Feedback Loops:</strong> Reviews, meetings, surveys for two-way communication.</p>
+                  <p class="mb-2"><strong>FGDs:</strong> Structured discussions on attitudes, challenges, interventions.</p>
+                  <p class="mb-0"><strong>PTD:</strong> Joint experimentation and technology refinement with farmers.</p>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Village Extension Committees
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#participatoryTools">
+                <div class="accordion-body small">
+                  Local bodies ensure inclusion—especially women and marginalized groups—in planning and implementation.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sociology & Psychology -->
+  <section id="socio" class="py-5 bg-white">
+    <div class="container">
+      <h2 class="h3 mb-4">7. Sociology & Psychology in Extension</h2>
+      <div class="row g-4">
+        <div class="col-12 col-lg-7">
+          <div class="card border-0 shadow-soft">
+            <div class="card-body p-4">
+              <h3 class="h6">Rural Sociology</h3>
+              <ul class="small">
+                <li>Understand social structure, values, customs, relationships</li>
+                <li>Address social change, conflict, leadership dynamics</li>
+                <li>Apply gender-sensitive approaches</li>
+              </ul>
+              <h3 class="h6 mt-3">Psychology & Learning Theories</h3>
+              <ul class="small">
+                <li><strong>Thorndike:</strong> Trial & Error</li>
+                <li><strong>Pavlov:</strong> Classical Conditioning</li>
+                <li><strong>Skinner:</strong> Operant Conditioning</li>
+              </ul>
+              <p class="small mb-0">Consider motivation, incentives, perception, attitude, and behavior change to create effective learning environments.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5">
+          <div class="p-4 rounded-3 border h-100">
+            <h3 class="h6">Quick Note</h3>
+            <p class="small mb-0">Blend social insights with behavioral nudges—recognition, peer champions, and timely reminders—to sustain engagement.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Institutions -->
+  <section id="institutions" class="py-5">
+    <div class="container">
+      <h2 class="h3 mb-4">8. Major Extension Education Institutions in India</h2>
+      <div class="row g-3">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-soft">
+            <div class="card-body">
+              <h3 class="h6 mb-2">National-Level</h3>
+              <ul class="small mb-0">
+                <li>ICAR – CIFE, Mumbai</li>
+                <li>MANAGE, Hyderabad</li>
+                <li>NAARM, Hyderabad</li>
+                <li>ICAR – CIFA, Bhubaneswar</li>
+                <li>ICAR – CIBA, Chennai</li>
+                <li>NFDB, Hyderabad</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-soft">
+            <div class="card-body">
+              <h3 class="h6 mb-2">State & Regional</h3>
+              <ul class="small mb-0">
+                <li>State Agricultural Universities (SAUs)</li>
+                <li>Krishi Vigyan Kendras (KVKs)</li>
+                <li>Directorates of Extension Education</li>
+                <li>Regional Fisheries Training Institutes (e.g., ARTI Hisar, CETRAD Dharwad)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-12 col-lg-4">
+          <div class="card h-100 shadow-soft">
+            <div class="card-body">
+              <h3 class="h6 mb-2">Conceptual Framework</h3>
+              <p class="small mb-1">Rogers’ Diffusion of Innovation: Innovators, Early Adopters, Early Majority, Late Majority, Laggards.</p>
+              <p class="small mb-0"><em>Source: Wikipedia</em></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rogers Adoption Curve (SVG Visual) -->
+  <section id="curve" class="py-5 bg-white">
+    <div class="container">
+      <h2 class="h3 mb-4">Rogers’ Adoption Bell Curve</h2>
+      <div class="card border-0 shadow-soft">
+        <div class="card-body p-4">
+          <div class="text-center mb-3 small text-slate-600">Interactive-like static SVG visual (fast, no external JS)</div>
+          <div class="w-100 overflow-auto">
+            <svg viewBox="0 0 960 360" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rogers Adoption Curve">
+              <line x1="40" y1="300" x2="920" y2="300" stroke="#64748b" stroke-width="1"/>
+              <text x="880" y="330" font-size="12" fill="#334155">Time →</text>
+              <line x1="40" y1="300" x2="40" y2="40" stroke="#64748b" stroke-width="1"/>
+              <text x="8" y="50" font-size="12" fill="#334155">% Adopters</text>
+              <path d="M40 300 C 200 300, 240 140, 320 120 C 400 100, 520 100, 600 120 C 680 140, 720 300, 880 300" fill="none" stroke="#0ea5e9" stroke-width="3" />
+              <rect x="40" y="300" width="120" height="0" fill="transparent"/>
+              <path d="M40 300 L160 300 C 180 300, 200 250, 220 220 C 200 230, 160 260, 40 300 Z" fill="#bae6fd" opacity="0.7"/>
+              <path d="M160 300 L320 300 C 340 300, 300 180, 320 120 C 280 160, 220 210, 160 300 Z" fill="#a7f3d0" opacity="0.7"/>
+              <path d="M320 300 L480 300 C 520 300, 520 100, 520 100 C 480 110, 420 120, 320 300 Z" fill="#dbeafe" opacity="0.7"/>
+              <path d="M480 300 L640 300 C 640 300, 640 110, 600 120 C 560 130, 520 120, 480 300 Z" fill="#a7f3d0" opacity="0.7"/>
+              <path d="M640 300 L880 300 C 880 300, 760 220, 720 300 C 700 300, 680 300, 640 300 Z" fill="#bae6fd" opacity="0.7"/>
+              <g font-size="12" fill="#0b2534">
+                <text x="70" y="290">Innovators (2.5%)</text>
+                <text x="210" y="270">Early Adopters (13.5%)</text>
+                <text x="380" y="250">Early Majority (34%)</text>
+                <text x="560" y="250">Late Majority (34%)</text>
+                <text x="770" y="290">Laggards (16%)</text>
+              </g>
+            </svg>
+          </div>
+          <p class="small mt-3 mb-0">Understanding adopter categories helps tailor extension strategies for different learner types.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conclusion -->
+  <section class="py-5">
+    <div class="container">
+      <div class="p-4 bg-white rounded-3 shadow-soft">
+        <h2 class="h4 mb-2">Conclusion</h2>
+        <p class="mb-0">Fisheries Extension Education bridges research and practice—enhancing livelihoods, promoting sustainability, and ensuring scientific benefits reach the grassroots. Effective programs are participatory, inclusive, adaptive, and impact-driven for long-term sectoral growth.</p>
+      </div>
+      <p class="small text-slate-500 mt-2"><em>Source: Wikipedia</em></p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-5 bg-white">
+    <div class="container">
+      <h2 class="h3 mb-4">FAQs</h2>
+      <div class="faq-list">
+        <div class="faq-card card border-0 shadow-soft mb-3">
+          <div class="faq-header p-3 bg-white rounded-top d-flex justify-content-between align-items-center" data-toggle="faq">
+            <h3 class="h6 mb-0">What is the quickest way to start a fisheries extension program in a village?</h3>
+            <span class="toggle-icon"></span>
+          </div>
+          <div class="faq-answer bg-ocean-light/20">
+            <p class="small m-0 p-3">Begin with a rapid PRA, identify 1–2 high-impact technologies, run a frontline demo with a local champion, and schedule follow-up visits.</p>
+          </div>
+        </div>
+        <div class="faq-card card border-0 shadow-soft mb-3">
+          <div class="faq-header p-3 bg-white rounded-top d-flex justify-content-between align-items-center" data-toggle="faq">
+            <h3 class="h6 mb-0">How do I handle low literacy levels?</h3>
+            <span class="toggle-icon"></span>
+          </div>
+          <div class="faq-answer bg-ocean-light/20">
+            <p class="small m-0 p-3">Use visual aids, demonstrations, local language audio/video, and peer-led sessions. Keep instructions simple and repeat key steps.</p>
+          </div>
+        </div>
+        <div class="faq-card card border-0 shadow-soft mb-3">
+          <div class="faq-header p-3 bg-white rounded-top d-flex justify-content-between align-items-center" data-toggle="faq">
+            <h3 class="h6 mb-0">Which channels work best for mass awareness?</h3>
+            <span class="toggle-icon"></span>
+          </div>
+          <div class="faq-answer bg-ocean-light/20">
+            <p class="small m-0 p-3">Community radio, WhatsApp groups, local cable TV, village exhibitions, and the Matsya Setu app for on-demand learning.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 border-top bg-white">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <p class="mb-0 small">© <span id="year"></span> Fisheries Extension Education — Single File UI</p>
+      <a href="#" class="small text-decoration-none">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <!-- Sticky CTA Buttons -->
+  <div class="sticky-cta d-flex flex-column gap-2 print-hide">
+    <button class="btn btn-info text-white shadow" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Back to top">↑</button>
+    <button class="btn btn-outline-info shadow" onclick="window.print()" title="Print / Save PDF">🖨️</button>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script>
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Sidebar toggle for mobile
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebarNav');
+    const sidebarClose = document.getElementById('sidebarClose');
+
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    sidebarClose.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+    });
+
+    // Close sidebar on nav link click
+    document.querySelectorAll('#sidebarNav .nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+      });
+    });
+
+    // FAQ card toggle
+    document.querySelectorAll('.faq-card .faq-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const faqCard = header.closest('.faq-card');
+        faqCard.classList.toggle('active');
+      });
+    });
+
+    // Smooth scroll for internal links, excluding sidebar and FAQ toggles
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        if (!anchor.closest('.sidebar, .faq-header')) {
+          e.preventDefault();
+          const targetId = anchor.getAttribute('href');
+          const target = document.querySelector(targetId);
+          if (target) {
+            setTimeout(() => {
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 200);
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

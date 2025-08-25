@@ -62,7 +62,7 @@
       width: 80%;
       max-width: 300px;
       height: 100%;
-      background: rgba(255,255,255,0.95);
+      background: white;
       transition: right 0.3s ease-in-out;
       z-index: 1000;
     }
@@ -121,52 +121,36 @@
 
 <body class="min-h-screen font-sans text-slate-800">
   <!-- Navbar -->
-  <nav class="navbar bg-white/80 glass sticky-top border-b py-3">
-    <div class="container">
-      <a class="navbar-brand fw-semibold text-ocean-dark" href="#">
-        <span class="inline-flex items-center gap-2">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 12c3-3 8-4 12-2 0 0 1-2 4-2-1 2-1 4 0 6-3 0-4-2-4-2-4 2-9 1-12-2Z" fill="var(--ocean)"/>
-            <circle cx="6" cy="12" r="1" fill="#0b2534"/>
-          </svg>
-          <span>Fisheries Extension Education</span>
-        </span>
-      </a>
-      <!-- Desktop Nav -->
-      <div class="desktop-nav navbar-nav d-flex flex-row gap-3">
-        <a class="nav-link" href="#definition">Definition</a>
-        <a class="nav-link" href="#history">History & Role</a>
-        <a class="nav-link" href="#methods">Methods</a>
-        <a class="nav-link" href="#themes">Key Themes</a>
-        <a class="nav-link" href="#programs">Programs</a>
-        <a class="nav-link" href="#planning">Planning</a>
-        <a class="nav-link" href="#socio">Socio & Psych</a>
-        <a class="nav-link" href="#institutions">Institutions</a>
-        <a class="nav-link" href="#curve">Adoption Curve</a>
-        <a class="nav-link" href="#faq">FAQ</a>
-      </div>
-      <!-- Mobile Toggler -->
-      <button class="navbar-toggler d-lg-none" type="button" id="sidebarToggle" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <!-- Sidebar for Mobile -->
-      <div class="sidebar" id="sidebarNav">
-        <button class="sidebar-close" id="sidebarClose">×</button>
-        <ul class="nav flex-column pt-5">
-          <li class="nav-item"><a class="nav-link" href="#definition">Definition</a></li>
-          <li class="nav-item"><a class="nav-link" href="#history">History & Role</a></li>
-          <li class="nav-item"><a class="nav-link" href="#methods">Methods</a></li>
-          <li class="nav-item"><a class="nav-link" href="#themes">Key Themes</a></li>
-          <li class="nav-item"><a class="nav-link" href="#programs">Programs</a></li>
-          <li class="nav-item"><a class="nav-link" href="#planning">Planning</a></li>
-          <li class="nav-item"><a class="nav-link" href="#socio">Socio & Psych</a></li>
-          <li class="nav-item"><a class="nav-link" href="#institutions">Institutions</a></li>
-          <li class="nav-item"><a class="nav-link" href="#curve">Adoption Curve</a></li>
-          <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-        </ul>
-      </div>
+<nav class="navbar bg-white/80 glass sticky-top border-b py-3">
+  <div class="container">
+    <a class="navbar-brand fw-semibold text-ocean-dark" href="#">
+      <span class="inline-flex items-center gap-2">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 12c3-3 8-4 12-2 0 0 1-2 4-2-1 2-1 4 0 6-3 0-4-2-4-2-4 2-9 1-12-2Z" fill="var(--ocean)"/>
+          <circle cx="6" cy="12" r="1" fill="#0b2534"/>
+        </svg>
+        <span>Fisheries Extension Education</span>
+      </span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="desktop-nav navbar-nav d-flex flex-row gap-3">
+      <a class="nav-link" href="#definition">Definition</a>
+      <a class="nav-link" href="#history">History & Role</a>
+      <a class="nav-link" href="#methods">Methods</a>
+      <a class="nav-link" href="#themes">Key Themes</a>
+      <a class="nav-link" href="#programs">Programs</a>
+      <a class="nav-link" href="#planning">Planning</a>
+      <a class="nav-link" href="#socio">Socio & Psych</a>
+      <a class="nav-link" href="#institutions">Institutions</a>
+      <a class="nav-link" href="#curve">Adoption Curve</a>
+      <a class="nav-link" href="#faq">FAQ</a>
     </div>
-  </nav>
+
+  
+  </div>
+</nav>
+
 
   <!-- Hero -->
   <header class="bg-gradient-to-b from-ocean-light to-white pt-12 pb-4">
@@ -206,55 +190,49 @@
   </header>
 
   <!-- Definition & Concepts -->
-  <section id="definition" class="py-5">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-12 col-lg-7">
-          <div class="card border-0 shadow-soft">
-            <div class="card-body p-4">
-              <h2 class="h3 mb-3">1. Definition and Concepts</h2>
-              <p><strong>Extension Education</strong> is a structured process encompassing informal, non-formal, and formal methods of education. It is designed to transfer knowledge, practical skills, and appropriate technologies to rural and coastal communities, with the objective of enhancing their socio-economic status and livelihood sustainability.</p>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+<section id="definition" class="py-5" style="min-height: 100vh;">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+        <div class="card border-0 shadow-soft">
+          <div class="card-body p-4">
+            <h2 class="h3 mb-3">1. Definition and Concepts</h2>
+            <p><strong>Extension Education</strong> is a structured process encompassing informal, non-formal, and formal methods of education. It is designed to transfer knowledge, practical skills, and appropriate technologies to rural and coastal communities, with the objective of enhancing their socio-economic status and livelihood sustainability.</p>
+            
+            <div class="mt-3">
+              <h3 class="h5 mb-3">Types of Education</h3>
+              <div class="d-flex flex-column gap-3">
                 <div class="p-3 rounded-3 bg-white border">
-                  <h3 class="h6 mb-1">Informal Education</h3>
+                  <h4 class="h6 mb-1">Informal Education</h4>
                   <p class="mb-0 small">Learning through daily activities, experiences, peer interaction, and observation—unstructured and continuous.</p>
                 </div>
                 <div class="p-3 rounded-3 bg-white border">
-                  <h3 class="h6 mb-1">Non-formal Education</h3>
+                  <h4 class="h6 mb-1">Non-formal Education</h4>
                   <p class="mb-0 small">Organized learning outside formal schooling: trainings, workshops, demonstrations, fairs, exposure visits.</p>
                 </div>
                 <div class="p-3 rounded-3 bg-white border">
-                  <h3 class="h6 mb-1">Formal Education</h3>
+                  <h4 class="h6 mb-1">Formal Education</h4>
                   <p class="mb-0 small">Curriculum-based learning via universities, colleges, and institutes in fisheries and allied fields.</p>
                 </div>
               </div>
-              <hr class="my-4"/>
-              <h3 class="h5">Fisheries Extension</h3>
-              <ul class="mt-2 small columns-1 md:columns-2">
-                <li>Dissemination of appropriate technologies</li>
-                <li>Capacity building and skill development</li>
-                <li>Enhancing production and productivity</li>
-                <li>Promoting sustainable practices</li>
-                <li>Empowering fishing and farming communities through inclusive development</li>
-              </ul>
             </div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-5">
-          <div class="p-4 rounded-3 bg-ocean-light/50 border shadow-soft h-100">
-            <h3 class="h6 text-ocean-dark">Why this page?</h3>
-            <p class="small mb-2">Designed for QR-based access: light, fast, and readable. Use the quick links or scroll section by section.</p>
-            <ul class="small mb-0">
-              <li>Mobile-first layout</li>
-              <li>Section-wise content flow</li>
-              <li>Light fisheries theme</li>
-              <li>One embedded visual</li>
+
+            <hr class="my-4"/>
+            
+            <h3 class="h5">Fisheries Extension</h3>
+            <ul class="mt-2 small">
+              <li>Dissemination of appropriate technologies</li>
+              <li>Capacity building and skill development</li>
+              <li>Enhancing production and productivity</li>
+              <li>Promoting sustainable practices</li>
+              <li>Empowering fishing and farming communities through inclusive development</li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- History & Role -->
   <section id="history" class="py-5 bg-white">
@@ -422,58 +400,51 @@
     </div>
   </section>
 
-  <!-- Planning & Evaluation -->
-  <section id="planning" class="py-5">
-    <div class="container">
-      <h2 class="h3 mb-4">6. Extension Program Planning & Evaluation</h2>
-      <div class="row g-4">
-        <div class="col-12 col-lg-7">
-          <ol class="list-group list-group-numbered shadow-soft">
-            <li class="list-group-item">Collection of facts (baseline socio-economic data, resources, practices)</li>
-            <li class="list-group-item">Situation analysis (context, gaps, culture, stakeholders)</li>
-            <li class="list-group-item">Problem identification (prioritize constraints)</li>
-            <li class="list-group-item">Objective setting (<abbr title="Specific, Measurable, Achievable, Relevant, Time-bound">SMART</abbr>)</li>
-            <li class="list-group-item">Plan of work (calendar, methods, resources, timelines)</li>
-            <li class="list-group-item">Implementation (trainings, demonstrations, campaigns, exposure visits)</li>
-            <li class="list-group-item">Monitoring & evaluation (track progress, outcomes, impact)</li>
-            <li class="list-group-item">Review & revision (feedback-led adaptation)</li>
-          </ol>
+<!-- Planning & Evaluation -->
+<section id="planning" class="py-5">
+  <div class="container">
+    <h2 class="h3 mb-4">6. Extension Program Planning & Evaluation</h2>
+    <div class="row g-4">
+      <div class="col-12 col-lg-7">
+        <ol class="list-group list-group-numbered shadow-soft">
+          <li class="list-group-item">Collection of facts (baseline socio-economic data, resources, practices)</li>
+          <li class="list-group-item">Situation analysis (context, gaps, culture, stakeholders)</li>
+          <li class="list-group-item">Problem identification (prioritize constraints)</li>
+          <li class="list-group-item">Objective setting (<abbr title="Specific, Measurable, Achievable, Relevant, Time-bound">SMART</abbr>)</li>
+          <li class="list-group-item">Plan of work (calendar, methods, resources, timelines)</li>
+          <li class="list-group-item">Implementation (trainings, demonstrations, campaigns, exposure visits)</li>
+          <li class="list-group-item">Monitoring & evaluation (track progress, outcomes, impact)</li>
+          <li class="list-group-item">Review & revision (feedback-led adaptation)</li>
+        </ol>
+      </div>
+      <div class="col-12 col-lg-5">
+        <!-- Static Card Layout instead of Accordion -->
+        <div class="card shadow-soft mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">Participatory Planning Tools</h5>
+          </div>
+          <div class="card-body small">
+            <p class="mb-2"><strong>PRA:</strong> Resource/social mapping, seasonal calendars, transect walks.</p>
+            <p class="mb-2"><strong>Farmer-Led Extension:</strong> Farmers lead problem ID and solutions.</p>
+            <p class="mb-2"><strong>Feedback Loops:</strong> Reviews, meetings, surveys for two-way communication.</p>
+            <p class="mb-2"><strong>FGDs:</strong> Structured discussions on attitudes, challenges, interventions.</p>
+            <p class="mb-0"><strong>PTD:</strong> Joint experimentation and technology refinement with farmers.</p>
+          </div>
         </div>
-        <div class="col-12 col-lg-5">
-          <div class="accordion shadow-soft" id="participatoryTools">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  Participatory Planning Tools
-                </button>
-              </h2>
-              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#participatoryTools">
-                <div class="accordion-body small">
-                  <p class="mb-2"><strong>PRA:</strong> Resource/social mapping, seasonal calendars, transect walks.</p>
-                  <p class="mb-2"><strong>Farmer-Led Extension:</strong> Farmers lead problem ID and solutions.</p>
-                  <p class="mb-2"><strong>Feedback Loops:</strong> Reviews, meetings, surveys for two-way communication.</p>
-                  <p class="mb-2"><strong>FGDs:</strong> Structured discussions on attitudes, challenges, interventions.</p>
-                  <p class="mb-0"><strong>PTD:</strong> Joint experimentation and technology refinement with farmers.</p>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  Village Extension Committees
-                </button>
-              </h2>
-              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#participatoryTools">
-                <div class="accordion-body small">
-                  Local bodies ensure inclusion—especially women and marginalized groups—in planning and implementation.
-                </div>
-              </div>
-            </div>
+
+        <div class="card shadow-soft">
+          <div class="card-header">
+            <h5 class="mb-0">Village Extension Committees</h5>
+          </div>
+          <div class="card-body small">
+            <p>Local bodies ensure inclusion—especially women and marginalized groups—in planning and implementation.</p>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- Sociology & Psychology -->
   <section id="socio" class="py-5 bg-white">
@@ -640,7 +611,7 @@
   <!-- Footer -->
   <footer class="py-4 border-top bg-white">
     <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
-      <p class="mb-0 small">© <span id="year"></span> Fisheries Extension Education — Single File UI</p>
+      <p class="mb-0 small">© <span id="year"></span>#  Designed  by Parul Sihag (2022FS11BIV)</p>
       <a href="#" class="small text-decoration-none">Back to top ↑</a>
     </div>
   </footer>
@@ -648,7 +619,7 @@
   <!-- Sticky CTA Buttons -->
   <div class="sticky-cta d-flex flex-column gap-2 print-hide">
     <button class="btn btn-info text-white shadow" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Back to top">↑</button>
-    <button class="btn btn-outline-info shadow" onclick="window.print()" title="Print / Save PDF">🖨️</button>
+  
   </div>
 
   <!-- Bootstrap JS -->
